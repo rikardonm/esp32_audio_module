@@ -15,9 +15,6 @@ endif
 # not used by the docker image, and actually this directory is ignore in .gitignore
 # but it is an optional step so that we can browse the library source code
 # and have meaningful code completion on IDEs
-src/esp-idf:
-	@git clone --recursive https://github.com/espressif/esp-idf.git
-
 
 .PHONY: update_idf
 update_idf: src/esp-idf
