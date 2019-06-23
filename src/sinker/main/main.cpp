@@ -41,10 +41,13 @@ extern "C" {
 		BT_APP_EVT_STACK_UP = 0,
 	};
 
-	/* handler for bluetooth stack enabled events */
-	static void bt_av_hdl_stack_evt(uint16_t event, void *p_param);
-
 };
+
+/* handler for bluetooth stack enabled events */
+static void bt_av_hdl_stack_evt(uint16_t event, void *p_param);
+
+
+
 
 
 /*
