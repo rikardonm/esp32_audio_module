@@ -6,8 +6,14 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>org.eclipse.cdt.core.cBuilder</name>
-			<triggers>clean,full,incremental,</triggers>
+			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+			<triggers>full,incremental,</triggers>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -15,13 +21,19 @@
 	<natures>
 		<nature>org.eclipse.cdt.core.cnature</nature>
 		<nature>org.eclipse.cdt.core.ccnature</nature>
-		<nature>org.eclipse.cdt.cmake.core.cmakeNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
 	<linkedResources>
 		<link>
-			<name>components</name>
+			<name>esp-idf</name>
 			<type>2</type>
 			<location>/home/ricardo/esp32_audio_module/src/esp-idf/components</location>
+		</link>
+		<link>
+			<name>gcc 8.2.0</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/xtensa-esp32-elf/xtensa-esp32-elf/include/c++/8.2.0</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

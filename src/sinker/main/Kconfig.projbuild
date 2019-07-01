@@ -1,42 +1,39 @@
-menu "A2DP Example Configuration"
+menu "mybtt ESP32 Audio Module"
 
-    choice EXAMPLE_A2DP_SINK_OUTPUT
-        prompt "A2DP Sink Output"
-        default EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S
-        help
-            Select to use Internal DAC or external I2S driver
+#    choice EXAMPLE_A2DP_SINK_OUTPUT
+#        prompt "A2DP Sink Output"
+#        default EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S
+#        help
+#            Select to use Internal DAC or external I2S driver
+#
+#        config EXAMPLE_A2DP_SINK_OUTPUT_INTERNAL_DAC
+#            bool "Internal DAC"
+#            help
+#                Select this to use Internal DAC sink output
+#
+#        config EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S
+#            bool "External I2S Codec"
+#            help
+#                Select this to use External I2S sink output
+#
+#    endchoice
 
-        config EXAMPLE_A2DP_SINK_OUTPUT_INTERNAL_DAC
-            bool "Internal DAC"
-            help
-                Select this to use Internal DAC sink output
+   config MYBTT_ESP32_AUDIO_MODULE_I2S_BLK_PIN
+	int "I2S BLK PIN"
+	default 13
+	help
+	     IO number for BLK/BCK pin.
 
-        config EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S
-            bool "External I2S Codec"
-            help
-                Select this to use External I2S sink output
+   config MYBTT_ESP32_AUDIO_MODULE_I2S_LCK_PIN
+	int "I2S LCK PIN"
+	default 12
+	help
+	     IO number for LCK pin.
 
-    endchoice
-
-    config EXAMPLE_I2S_LRCK_PIN
-        int "I2S LRCK (WS) GPIO"
-        default 22
-        depends on EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S
-        help
-            GPIO number to use for I2S LRCK(WS) Driver.
-
-    config EXAMPLE_I2S_BCK_PIN
-        int "I2S BCK GPIO"
-        default 26
-        depends on EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S
-        help
-            GPIO number to use for I2S BCK Driver.
-
-    config EXAMPLE_I2S_DATA_PIN
-        int "I2S DATA GPIO"
-        default 25
-        depends on EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S
-        help
-            GPIO number to use for I2S Data Driver.
+    config MYBTT_ESP32_AUDIO_MODULE_I2S_DIN_PIN
+	int "I2S DIN PIN"
+	default 14
+	help
+	     IO number for DIN (codec) / DOUT (ESP32) pin.
 
 endmenu
