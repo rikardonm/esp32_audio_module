@@ -1,3 +1,4 @@
+.DEFAULT_GOAL:= sinker
 
 cdir=$(shell pwd)
 
@@ -11,10 +12,29 @@ else
 endif
 
 
+
+
+define docker_cmd
+	@docker run \
+		-it \
+		--rm \
+		-v $(cdir):/app/ \
+		-w="/app/$(2)/" \
+		--env IDF_PATH="/app/src/esp-idf/" \
+		$(ttydevice) \
+		esp32 \
+		$(1)
+
+endef
+
+
+
+
 # copy frameworks and libraries
 # not used by the docker image, and actually this directory is ignore in .gitignore
 # but it is an optional step so that we can browse the library source code
 # and have meaningful code completion on IDEs
+
 
 .PHONY: update_idf
 update_idf: src/esp-idf
@@ -25,25 +45,30 @@ build: src/esp-idf
 	@sudo docker build -t esp32 -f Dockerfile .
 
 
+.PHONY: prepare_docker_wo_sudo
+prepare:
+	@sudo groupadd docker
+	@sudo gpasswd -a $USER docker
+
 
 .PHONY: shell
 shell:
-	@sudo docker run \
-		-it \
-		--rm \
-		-v $(cdir):/app/ \
-		-w="/app/" \
-		--env IDF_PATH="/app/src/esp-idf/" \
-		$(ttydevice) \
-		esp32 \
-		bash
+	$(call docker_cmd, bash)
+
+.PHONY: sinker
+sinker:
+	$(call docker_cmd,make,src/sinker)
+
+
 
 
 .PHONY: help
 help:
 	@echo "Supports:"
 	@echo "- build"
+	@echo "- prepare_docker_wo_sudo"
 	@echo "- shell"
+	@echo "- sinker"
 	@echo "- src/esp-idf"
 	@echo "- update_idf"
 
