@@ -75,11 +75,11 @@ use internal pull-ups
 ## Interfaces & Actions
 
 * cellphone or audio source
- * connect
- * disconnect
- * pair
- * confirm correct pin code
- * play audio
+  * connect
+  * disconnect
+  * pair
+  * confirm correct pin code
+  * play audio
 
 * 1 push button
  * play/pause (or other quick device identification process)
