@@ -193,7 +193,56 @@ state description:
 6. sw update
 
 
+----------------------------------------------------
+------------------------------
+on mbtt
+what do i need to do?
+well, figure out stuff
+what are the hooks/callbacks required on the bt side of things?
+can I leave them in the C style fashion?
+hummm, perhaps I can
+mixing: transform the header and source files to cpp files, compile with g++
+later (with the extern declarations), bind the interface.
+wait. we only have one module.... make it global
+why the heck not?
+make the BTi class one global (as cin, cout, cerr)
+the cpp source file has then access to the instance and methods
+so, on the cpp file, declare the needed hooks from the API with the global instance
 
+great... that's the methodology
+how then will you separate the layers? bt hdl, bt avrc, bt gatt, bt a2d
+one class for each? with their own hooks?
+
++---------------+-------+---------------+
+| C++           | Layer |    C idf api  |
+| BTaudioCtrl   | L1    |    bt a2d     |
+| BTmetadata    | L1    |    bt avrc    |
+| BTprofiles    | L2    |    bt gatt    |
+| BTHwCtrl      | L3    |    bt hdl     | wasn't it hcl?
++---------------+-------+---------------+
+
+
+on a side note, would it be interesting to add an anxiety level meter?
+and yeah, add to the workflowy "todos:" 5-weeks period report for activities with graphana graphs
+so, todo:
+    in graphana, acquire graphs in jpeg format
+    build report
+    flush to telegram
+    add "are you stalling anything?"
+    add "how has your urine been?"
+for multiple users:
+    make the process state machine an object, retrieve it by the user id/message
+    keep tabs on registered users by their ids
+    shoot messages on timer expiry for each user id
+    should different users receive their messages at the same time? server load? periodicity?
+change telegram api from poll to hooks
+also, how do I detect if I am home?
+a very very simple way is: detect connected devices in the wifi network; find cellphone (Y)
+-> cellphone by mac-address
+-> cellphone by hostname
+-> scroll scanned devices and select new "unlock" key (visitors); add an expiry date?
+--> nmap -sP -oX FILE 192.168.0.0-255
+----------------------------------
 
 
 ## Some References for Maybe Future Work
