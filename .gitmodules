@@ -1,3 +1,4 @@
 [submodule "src/esp-idf"]
 	path = src/esp-idf
 	url = https://github.com/espressif/esp-idf.git
+	branch = master
