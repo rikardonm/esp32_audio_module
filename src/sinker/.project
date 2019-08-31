@@ -33,7 +33,7 @@
 		<link>
 			<name>gcc 8.2.0</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/xtensa-esp32-elf/xtensa-esp32-elf/include/c++/8.2.0</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/xtensa-esp32-elf/xtensa-esp32-elf/include/c++/8.2.0</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

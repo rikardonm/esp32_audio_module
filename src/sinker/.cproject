@@ -76,6 +76,10 @@
                                     <listOptionValue builtIn="false" value="_GLIBCXX_VISIBILITY"/>
                                     									
                                     <listOptionValue builtIn="false" value="_GLIBCXX_VISIBILITY(V)"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="CONFIG_LOG_DEFAULT_LEVEL=ESP_LOG_VERBOSE"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="NULL=nullptr"/>
                                     								
                                 </option>
                                 								
