@@ -71,8 +71,8 @@ class BluetoothInterfaceBackservice
 		: _BaseMessage(b_msg)
 		{
 			Execute(&bti);
-			if (b_msg.module_argument_ptr)
-				free(b_msg.module_argument_ptr);
+//			if (b_msg.module_argument_ptr)
+//				free(b_msg.module_argument_ptr);
 		}
 
 		_ClassMessage()
@@ -86,18 +86,18 @@ class BluetoothInterfaceBackservice
 		{
 			// and this malloc is just wrong
 			// sizeof pointer is fucking.... 1, or 4
-			auto ptr = malloc(sizeof(arg));
-			if (nullptr == ptr) {
-				this->event = DispatchEvents::failed;
-				return;
-			}
+//			auto ptr = malloc(sizeof(arg));
+//			if (nullptr == ptr) {
+//				this->event = DispatchEvents::failed;
+//				return;
+//			}
 			// should we copy our argument to its new location?
 			// or maybe just swap pointers?
 			// after all, it all comes and goes to same place/store, eh?
 			// or even, swap against nullptr? hummm, interesting.. not so much. need to copy!!!
 			this->event					= EventType;
 			this->module_event			= 0;
-			this->module_argument_ptr	= ptr;
+			this->module_argument_ptr	= arg;
 		}
 
 		_ClassMessage(_ModuleEvent evt, _ModuleArgument* arg)

@@ -17,6 +17,7 @@ esp_a2d_audio_state_t s_audio_state = ESP_A2D_AUDIO_STATE_STOPPED;
 
 void BluetoothA2D::EventState(esp_a2d_cb_event_t event, esp_a2d_cb_param_t *param)
 {
+	ESP_LOGI(logTag, "Got into A2D Event with %d", event);
 	switch (event)
 	{
 	case ESP_A2D_CONNECTION_STATE_EVT:
