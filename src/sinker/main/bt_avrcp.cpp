@@ -81,7 +81,6 @@ void BluetoothAVRCP::EventBattery(decltype(esp_avrc_rn_param_t::batt) batt)
 {
 }
 
-
 void BluetoothAVRCP::EventController(esp_avrc_ct_cb_event_t event, esp_avrc_ct_cb_param_t *param)
 {
 	auto bt_app_alloc_meta_buffer = [](esp_avrc_ct_cb_param_t *rc)
@@ -93,6 +92,7 @@ void BluetoothAVRCP::EventController(esp_avrc_ct_cb_event_t event, esp_avrc_ct_c
 			rc->meta_rsp.attr_text = attr_text;// copy pointer of response for copied string
 		};
 
+	ESP_LOGI(logTag, "Event on controller with %d ", event);
 	switch (event)
 	{
 	case ESP_AVRC_CT_METADATA_RSP_EVT:

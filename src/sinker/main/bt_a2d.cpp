@@ -15,6 +15,21 @@ esp_a2d_audio_state_t s_audio_state = ESP_A2D_AUDIO_STATE_STOPPED;
 
 
 
+void BluetoothA2D::SetCallbacks(BluetoothTag::A2D::CallbackType::SampleRate cb_sr,
+								BluetoothTag::A2D::CallbackType::Data cb_dta)
+{
+	sample_rate_cb_ = cb_sr;
+	data_cb_ = cb_dta;
+}
+
+void BluetoothA2D::Boot()
+{
+	/* initialize A2DP sink */
+	esp_a2d_register_callback(&BluetoothA2D::EventState);
+	esp_a2d_sink_register_data_callback(&BluetoothA2D::EventDataSink);
+	esp_a2d_sink_init();
+}
+
 void BluetoothA2D::EventState(esp_a2d_cb_event_t event, esp_a2d_cb_param_t *param)
 {
 	ESP_LOGI(logTag, "Got into A2D Event with %d", event);
@@ -35,10 +50,12 @@ void BluetoothA2D::EventState(esp_a2d_cb_event_t event, esp_a2d_cb_param_t *para
 
 void BluetoothA2D::EventDataSink(const uint8_t *data, uint32_t len)
 {
-	size_t bytes_written;
-//	i2s_write(0, data, len, &bytes_written, portMAX_DELAY);
+	static size_t bytes_written = 0;
+	//fixme what a hack to just leave it with a static/global
+	if (BluetoothInterface::GetInstance()->a2d.data_cb_)
+		bytes_written += BluetoothInterface::GetInstance()->a2d.data_cb_(data, len);
 	if (++s_pkt_cnt % 100 == 0) {
-		ESP_LOGI(logTag, "Audio packet count %u", s_pkt_cnt);
+		ESP_LOGI(logTag, "Audio packet count %u. Total of %d bytes", s_pkt_cnt, bytes_written);
 	}
 }
 
@@ -88,8 +105,8 @@ void BluetoothA2D::WorkerState(esp_a2d_cb_event_t event, esp_a2d_cb_param_t* a2d
 			else if (oct0 & (0x01 << 4)) {
 				sample_rate = 48000;
 			}
-
-//			i2s_set_clk(0, sample_rate, 16, 2);
+			if (sample_rate_cb_)
+				sample_rate_cb_(sample_rate);
 
 			ESP_LOGI(logTag, "Configure audio player %x-%x-%x-%x",
 					a2d->audio_cfg.mcc.cie.sbc[0], a2d->audio_cfg.mcc.cie.sbc[1], a2d->audio_cfg.mcc.cie.sbc[2],
@@ -103,15 +120,4 @@ void BluetoothA2D::WorkerState(esp_a2d_cb_event_t event, esp_a2d_cb_param_t* a2d
 		break;
 	}
 }
-
-
-
-void BluetoothA2D::Boot()
-{
-	/* initialize A2DP sink */
-	esp_a2d_register_callback(&BluetoothA2D::EventState);
-	esp_a2d_sink_register_data_callback(&BluetoothA2D::EventDataSink);
-	esp_a2d_sink_init();
-}
-
 

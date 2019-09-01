@@ -20,19 +20,19 @@ menu "mybtt ESP32 Audio Module"
 
    config MYBTT_ESP32_AUDIO_MODULE_I2S_BLK_PIN
 	int "I2S BLK PIN"
-	default 13
+	default 21
 	help
 	     IO number for BLK/BCK pin.
 
    config MYBTT_ESP32_AUDIO_MODULE_I2S_LCK_PIN
 	int "I2S LCK PIN"
-	default 12
+	default 18
 	help
 	     IO number for LCK pin.
 
-    config MYBTT_ESP32_AUDIO_MODULE_I2S_DIN_PIN
-	int "I2S DIN PIN"
-	default 14
+    config MYBTT_ESP32_AUDIO_MODULE_I2S_DOUT_PIN
+	int "I2S DOUT PIN"
+	default 19
 	help
 	     IO number for DIN (codec) / DOUT (ESP32) pin.
 

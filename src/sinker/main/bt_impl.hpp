@@ -1,4 +1,3 @@
-
 #ifndef BT_IMPL_HPP
 #define BT_IMP_HPP
 
@@ -70,7 +69,7 @@ class BluetoothInterfaceBackservice
 		_ClassMessage(_BaseMessage b_msg)
 		: _BaseMessage(b_msg)
 		{
-			Execute(&bti);
+			Execute(BluetoothInterface::GetInstance());
 //			if (b_msg.module_argument_ptr)
 //				free(b_msg.module_argument_ptr);
 		}
@@ -123,7 +122,6 @@ class BluetoothInterfaceBackservice
 public:
 	xQueueHandle msg_queue;
 	xTaskHandle task_handle;
-	std::unique_ptr<BluetoothInterface> target_instance_;
 
 	static BluetoothInterfaceBackservice& GetInstanceRef() noexcept;
 	void StartTask(BluetoothInterface* target_instance);

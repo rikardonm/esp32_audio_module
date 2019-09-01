@@ -93,7 +93,6 @@ void BluetoothInterfaceBackservice::A2DEventMsg::Execute(BluetoothInterface* bti
 template<>
 void BluetoothInterfaceBackservice::AVRCCtEventMsg::Execute(BluetoothInterface* btibi)
 {
-	// is it correct here?
 	btibi->avrcp.WorkerController(GetEvent(), GetArgument());
 }
 

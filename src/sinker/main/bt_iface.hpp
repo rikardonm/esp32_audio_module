@@ -16,6 +16,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <memory>
 
 
 #include "esp_log.h"
@@ -48,17 +49,23 @@ namespace A2D {
 			"Stopped",
 			"Started"};
 	}
+	namespace CallbackType {
+	using SampleRate	= void(*)(int);
+	using Data			= unsigned int (*)(const uint8_t*, uint32_t);
+	}
 }
 }
 
 class BluetoothA2D
 {
 public:
-
 	/*
 	 * todo functions for registering callback when data is received
 	 * or when data is requested too (?)
 	 */
+	void SetCallbacks(BluetoothTag::A2D::CallbackType::SampleRate cb_sr,
+					  BluetoothTag::A2D::CallbackType::Data cb_dta);
+
 private:
 	friend class BluetoothInterface;
 	friend class BluetoothInterfaceBackservice;
@@ -69,6 +76,9 @@ private:
 	static void EventState(esp_a2d_cb_event_t event, esp_a2d_cb_param_t* a2d);
 	static void EventDataSink(const uint8_t *data, uint32_t len);
 	void WorkerState(esp_a2d_cb_event_t event, esp_a2d_cb_param_t *param);
+
+	BluetoothTag::A2D::CallbackType::SampleRate	sample_rate_cb_	= nullptr;
+	BluetoothTag::A2D::CallbackType::Data		data_cb_		= nullptr;
 };
 
 
@@ -153,8 +163,9 @@ private:
 class BluetoothInterface
 {
 public:
-	BluetoothInterface()	= default;
+	static BluetoothInterface* GetInstance();
 	~BluetoothInterface()	= default;
+
 	bool Connect()
 	{
 		return true;
@@ -178,15 +189,15 @@ public:
 	BluetoothAVRCP avrcp;
 private:
 	friend class BluetoothInterfaceBackservice;
+	BluetoothInterface()	= default;
 
 	void WorkerStackup();
 
 	static bool booted_;
+	static std::unique_ptr<BluetoothInterface> instance_;
 };
 
-
-
-extern BluetoothInterface bti;
+using BluetoothInterfacePtr = BluetoothInterface*;
 
 
 #endif /* BT_IFACE_HPP */

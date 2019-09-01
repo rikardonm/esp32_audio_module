@@ -8,17 +8,19 @@
 #include "bt_iface.hpp"
 #include "bt_impl.hpp"
 
-
-BluetoothInterface bti;
+#include <memory>
 
 bool BluetoothInterface::booted_ = 0;
+std::unique_ptr<BluetoothInterface> BluetoothInterface::instance_;
 
 const char logTag[]		= "btiIface";
+
 
 void BluetoothInterface::Boot()
 {
 	if (booted_)
 		return;
+	GetInstance();
 	booted_ = true;
 	ESP_LOGI(logTag, "Booting ...");
 	ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_BLE));
@@ -48,6 +50,14 @@ void BluetoothInterface::Boot()
 }
 
 
+BluetoothInterfacePtr BluetoothInterface::GetInstance()
+{
+	if (!instance_)
+		instance_.reset(new BluetoothInterface());
+//		instance_ = std::make_unique<BluetoothInterface>();
+	return instance_.get();
+}
+
 void BluetoothInterface::SetName(const std::string& name)
 {
 	esp_bt_dev_set_device_name(name.c_str());
@@ -59,10 +69,10 @@ void BluetoothInterface::SetName(const std::string& name)
 void BluetoothInterface::WorkerStackup()
 {
 	ESP_LOGI(logTag, "Executing stack-up event");
-	bti.SetName("FUCK");
-	bti.gap.Boot();
-	bti.avrcp.Boot();
-	bti.a2d.Boot();
+	SetName("FUCK");
+	gap.Boot();
+	avrcp.Boot();
+	a2d.Boot();
 	/* set discoverable and connectable mode, wait to be connected */
 	esp_bt_gap_set_scan_mode(ESP_BT_CONNECTABLE, ESP_BT_GENERAL_DISCOVERABLE);
 }
